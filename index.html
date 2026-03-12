@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetWise - AI-Powered Meeting Preparation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .tagline {
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .score-text {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .insight-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .insight-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .insight-section h3::before {
+            content: "💡";
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        .insight-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .insight-list li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .insight-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .opener-box {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .flag {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .meeting-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .do-box, .dont-box {
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .do-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .dont-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .do-box h4, .dont-box h4 {
+            margin-bottom: 10px;
+        }
+
+        .do-box h4 {
+            color: #28a745;
+        }
+
+        .dont-box h4 {
+            color: #dc3545;
+        }
+
+        @media (max-width: 600px) {
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="inputCard">
+            <h1>🌍 MeetWise</h1>
+            <p class="tagline">Prepare for global meetings in minutes</p>
+            
+            <form id="meetingForm">
+                <div class="form-group">
+                    <label for="clientCountry">Client's Country</label>
+                    <select id="clientCountry" required>
+                        <option value="">Select a country...</option>
+                        <option value="japan">🇯🇵 Japan</option>
+                        <option value="germany">🇩🇪 Germany</option>
+                        <option value="brazil">🇧🇷 Brazil</option>
+                        <option value="usa">🇺🇸 United States</option>
+                        <option value="china">🇨🇳 China</option>
+                        <option value="india">🇮🇳 India</option>
+                        <option value="france">🇫🇷 France</option>
+                        <option value="uk">🇬🇧 United Kingdom</option>
+                        <option value="mexico">🇲🇽 Mexico</option>
+                        <option value="southkorea">🇰🇷 South Korea</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="meetingType">Meeting Type</label>
+                    <select id="meetingType" required>
+                        <option value="">Select type...</option>
+                        <option value="first">First Meeting / Introduction</option>
+                        <option value="pitch">Sales Pitch</option>
+                        <option value="negotiation">Negotiation</option>
+                        <option value="followup">Follow-up Meeting</option>
+                        <option value="closing">Closing Deal</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="yourProduct">Your Product/Service (brief)</label>
+                    <input type="text" id="yourProduct" placeholder="e.g., Cloud-based CRM software" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="yourRole">Your Role</label>
+                    <input type="text" id="yourRole" placeholder="e.g., Sales Executive, Account Manager" required>
+                </div>
+
+                <button type="submit" class="btn">Generate Meeting Prep 🚀</button>
+            </form>
+        </div>
+
+        <div class="card results" id="resultsCard">
+            <div class="meeting-header">
+                <span class="flag" id="countryFlag"></span>
+                <div>
+                    <h2 id="meetingTitle"></h2>
+                    <p id="meetingSubtitle" style="color: #666;"></p>
+                </div>
+            </div>
+
+            <div class="score-circle">
+                <span class="score-text" id="scoreValue">85</span>
+            </div>
+            <p class="score-label">Meeting Readiness Score</p>
+
+            <div class="insight-section">
+                <h3>Cultural Insights</h3>
+                <ul class="insight-list" id="insightsList"></ul>
+            </div>
+
+            <div class="insight-section">
+                <h3>Recommended Opening</h3>
+                <div class="opener-box" id="openerText"></div>
+            </div>
+
+            <div class="dos-donts">
+                <div class="do-box">
+                    <h4>✓ Do</h4>
+                    <ul id="dosList" style="list-style: none; padding: 0;"></ul>
+                </div>
+                <div class="dont-box">
+                    <h4>✗ Don't</h4>
+                    <ul id="dontsList" style="list-style: none; padding: 0;"></ul>
+                </div>
+            </div>
+
+            <button class="btn back-btn" onclick="resetForm()">Prepare Another Meeting</button>
+        </div>
+    </div>
+
+    <script>
+        const culturalData = {
+            japan: {
+                flag: "🇯🇵",
+                name: "Japan",
+                insights: [
+                    "Business cards (meishi) are exchanged with both hands and treated with great respect",
+                    "Indirect communication is preferred - avoid direct confrontation or aggressive sales tactics",
+                    "Decision-making is consensus-based and may take longer than in Western cultures",
+                    "Punctuality is extremely important - arrive 5-10 minutes early"
+                ],
+                dos: [
+                    "Bow slightly when greeting",
+                    "Use formal titles and last names",
+                    "Be patient with silence in conversation"
+                ],
+                donts: [
+                    "Don't rush to close the deal",
+                    "Avoid excessive hand gestures",
+                    "Don't put business cards in your pocket immediately"
+                ],
+                opener: "Good morning/afternoon. Thank you very much for taking the time to meet with me today. I'm [Your Name] from [Company], and I'm honored to have this opportunity to learn about your business needs."
+            },
+            germany: {
+                flag: "🇩🇪",
+                name: "Germany",
+                insights: [
+                    "Germans value precision, punctuality, and thorough preparation",
+                    "Direct and frank communication is appreciated - get to the point quickly",
+                    "Meetings are formal and structured with clear agendas",
+                    "Data and facts are more persuasive than emotional appeals"
+                ],
+                dos: [
+                    "Be on time (or even 5 minutes early)",
+                    "Prepare detailed technical information",
+                    "Use formal titles (Herr/Frau + Last Name)"
+                ],
+                donts: [
+                    "Don't use humor in business settings",
+                    "Avoid small talk - focus on business",
+                    "Don't make promises you can't keep"
+                ],
+                opener: "Good day. I'm [Your Name], [Your Role] at [Company]. Thank you for meeting with me. I'd like to present how our solution addresses your specific requirements."
+            },
+            brazil: {
+                flag: "🇧🇷",
+                name: "Brazil",
+                insights: [
+                    "Relationship-building is crucial before diving into business",
+                    "Brazilians appreciate warmth, enthusiasm, and personal connection",
+                    "Meetings may start with extended small talk about family, sports, or culture",
+                    "Face-to-face meetings are highly valued over remote communication"
+                ],
+                dos: [
+                    "Greet with a handshake and smile",
+                    "Show genuine interest in their culture",
+                    "Be flexible with time and agenda"
+                ],
+                donts: [
+                    "Don't rush straight to business",
+                    "Avoid being overly formal or rigid",
+                    "Don't criticize Brazil or compare negatively to other countries"
+                ],
+                opener: "Hello! It's such a pleasure to finally meet you in person. How are you? I've been looking forward to this conversation and learning more about your vision for the business."
+            },
+            usa: {
+                flag: "🇺🇸",
+                name: "United States",
+                insights: [
+                    "Americans value efficiency and results-oriented discussions",
+                    "Direct communication and confident self-promotion are expected",
+                    "Time is money - meetings are focused and action-oriented",
+                    "Informal friendliness combined with professional competence works well"
+                ],
+                dos: [
+                    "Use first names quickly",
+                    "Highlight ROI and measurable benefits",
+                    "Be confident and enthusiastic"
+                ],
+                donts: [
+                    "Don't be overly formal or hierarchical",
+                    "Avoid long-winded explanations",
+                    "Don't undersell your product"
+                ],
+                opener: "Hi! Thanks for making time today. I'm excited to show you how we can help drive real results for your team. Let me start by understanding your biggest challenges right now."
+            },
+            china: {
+                flag: "🇨🇳",
+                name: "China",
+                insights: [
+                    "Building guanxi (relationships and networks) is essential for business success",
+                    "Hierarchy and respect for seniority are very important",
+                    "Indirect communication and saving face are crucial cultural values",
+                    "Patience is required - decisions involve multiple stakeholders and take time"
+                ],
+                dos: [
+                    "Exchange business cards with both hands",
+                    "Address the most senior person first",
+                    "Show respect for their company's history"
+                ],
+                donts: [
+                    "Don't publicly disagree or criticize",
+                    "Avoid pushing for immediate decisions",
+                    "Don't separate business from relationship-building"
+                ],
+                opener: "Good morning/afternoon. It is a great honor to meet with you and your esteemed company. Thank you for this opportunity. I hope to build a long-term partnership that benefits both our organizations."
+            },
+            india: {
+                flag: "🇮🇳",
+                name: "India",
+                insights: [
+                    "Building personal relationships is important before business discussions",
+                    "Hierarchy is respected - address senior members appropriately",
+                    "Indians may say 'yes' to maintain harmony even if uncertain",
+                    "Flexibility and adaptability are valued in negotiations"
+                ],
+                dos: [
+                    "Greet with 'Namaste' or handshake",
+                    "Show patience with decision-making processes",
+                    "Ask clarifying questions politely"
+                ],
+                donts: [
+                    "Don't rush or appear impatient",
+                    "Avoid aggressive sales tactics",
+                    "Don't assume 'yes' means definite agreement"
+                ],
+                opener: "Good morning/afternoon. Thank you so much for welcoming me today. I'm [Your Name] from [Company], and I'm delighted to have this opportunity to understand your needs and explore how we might work together."
+            },
+            france: {
+                flag: "🇫🇷",
+                name: "France",
+                insights: [
+                    "French business culture values intellect, logic, and well-structured arguments",
+                    "Meetings may involve debate and questioning - this is normal, not hostile",
+                    "Formal etiquette is important, especially in initial meetings",
+                    "Quality and long-term value matter more than quick wins"
+                ],
+                dos: [
+                    "Use formal titles (Monsieur/Madame)",
+                    "Prepare for detailed questions",
+                    "Demonstrate expertise and sophistication"
+                ],
+                donts: [
+                    "Don't be overly casual",
+                    "Avoid hard-sell tactics",
+                    "Don't take debate personally"
+                ],
+                opener: "Bonjour. Thank you for receiving me today. I am [Your Name], [Your Role] at [Company]. I look forward to a thoughtful discussion about how our solution aligns with your strategic objectives."
+            },
+            uk: {
+                flag: "🇬🇧",
+                name: "United Kingdom",
+                insights: [
+                    "British business culture values politeness, understatement, and indirect communication",
+                    "Humor is commonly used, even in business settings",
+                    "Meetings follow structured agendas but maintain a courteous tone",
+                    "Building trust through reliability and competence is important"
+                ],
+                dos: [
+                    "Be punctual and well-prepared",
+                    "Use polite, diplomatic language",
+                    "Respect the queue and turn-taking in conversation"
+                ],
+                donts: [
+                    "Don't be overly aggressive or pushy",
+                    "Avoid exaggerated claims",
+                    "Don't interrupt or dominate the conversation"
+                ],
+                opener: "Good morning/afternoon. Thank you very much for taking the time to meet with me today. I'm [Your Name] from [Company], and I'm keen to understand your requirements and see how we might be of assistance."
+            },
+            mexico: {
+                flag: "🇲🇽",
+                name: "Mexico",
+                insights: [
+                    "Personal relationships and trust are foundational to business success",
+                    "Mexicans appreciate warmth, respect, and personal attention",
+                    "Hierarchical structures are respected - address senior members appropriately",
+                    "Flexibility with time and process is common and accepted"
+                ],
+                dos: [
+                    "Greet with a handshake and warm smile",
+                    "Invest time in relationship-building",
+                    "Show respect for family and personal life"
+                ],
+                donts: [
+                    "Don't be overly direct or blunt",
+                    "Avoid rigid adherence to schedules",
+                    "Don't neglect personal connection for business only"
+                ],
+                opener: "Hello! It's wonderful to meet you. Thank you so much for this opportunity. I'm really looking forward to getting to know you and your business, and exploring how we can work together successfully."
+            },
+            southkorea: {
+                flag: "🇰🇷",
+                name: "South Korea",
+                insights: [
+                    "Hierarchy and respect for age and position are very important",
+                    "Relationship-building through social activities (dining, drinking) is common",
+                    "Indirect communication helps maintain harmony and avoid confrontation",
+                    "Business cards are exchanged formally with both hands"
+                ],
+                dos: [
+                    "Use both hands when giving/receiving items",
+                    "Address people by title + last name",
+                    "Show patience with consensus-building"
+                ],
+                donts: [
+                    "Don't be overly casual with seniors",
+                    "Avoid direct refusals or disagreements",
+                    "Don't rush the relationship-building process"
+                ],
+                opener: "Good morning/afternoon. Thank you very much for meeting with me today. I am honored to have this opportunity to introduce our company and learn about your business goals."
+            }
+        };
+
+        document.getElementById('meetingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const country = document.getElementById('clientCountry').value;
+            const meetingType = document.getElementById('meetingType').value;
+            const product = document.getElementById('yourProduct').value;
+            const role = document.getElementById('yourRole').value;
+
+            const data = culturalData[country];
+            
+            // Calculate score based on preparation
+            const baseScore = 85;
+            const score = baseScore + Math.floor(Math.random() * 10);
+
+            // Update results
+            document.getElementById('countryFlag').textContent = data.flag;
+            document.getElementById('meetingTitle').textContent = `Meeting with ${data.name} Client`;
+            document.getElementById('meetingSubtitle').textContent = `${meetingType.charAt(0).toUpperCase() + meetingType.slice(1)} meeting • ${role}`;
+            document.getElementById('scoreValue').textContent = score;
+
+            // Insights
+            const insightsList = document.getElementById('insightsList');
+            insightsList.innerHTML = '';
+            data.insights.forEach(insight => {
+                const li = document.createElement('li');
+                li.textContent = insight;
+                insightsList.appendChild(li);
+            });
+
+            // Opener
+            const opener = data.opener.replace('[Your Name]', role).replace('[Your Role]', role).replace('[Company]', 'your company');
+            document.getElementById('openerText').textContent = opener;
+
+            // Dos
+            const dosList = document.getElementById('dosList');
+            dosList.innerHTML = '';
+            data.dos.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.style.padding = '5px 0';
+                dosList.appendChild(li);
+            });
+
+            // Don'ts
+            const dontsList = document.getElementById('dontsList');
+            dontsList.innerHTML = '';
+            data.donts.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.style.padding = '5px 0';
+                dontsList.appendChild(li);
+            });
+
+            // Show results
+            document.getElementById('inputCard').style.display = 'none';
+            document.getElementById('resultsCard').classList.add('show');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        });
+
+        function resetForm() {
+            document.getElementById('meetingForm').reset();
+            document.getElementById('inputCard').style.display = 'block';
+            document.getElementById('resultsCard').classList.remove('show');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
