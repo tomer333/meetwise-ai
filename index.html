@@ -31,7 +31,6 @@
             margin-bottom: 20px;
         }
 
-        /* LOGIN PAGE */
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -309,7 +308,6 @@
             transition: width 0.3s;
         }
 
-        /* TEAM CARDS */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -361,46 +359,8 @@
             color: #666;
         }
 
-        /* MINI GAMES */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .game-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .game-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .game-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .game-desc {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .game-play-area {
+        /* GAME STYLES */
+        .game-container {
             background: white;
             border-radius: 16px;
             padding: 40px;
@@ -408,11 +368,40 @@
             margin: 0 auto;
         }
 
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-country {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .game-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .game-subtitle {
+            color: #666;
+        }
+
+        .game-score {
+            text-align: center;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
         .game-question {
             font-size: 1.3em;
             color: #333;
             margin-bottom: 25px;
             text-align: center;
+            font-weight: 600;
         }
 
         .game-options {
@@ -422,17 +411,19 @@
 
         .game-option {
             background: #f8f9fa;
-            border: 2px solid #e0e0e0;
+            border: 3px solid #e0e0e0;
             border-radius: 12px;
             padding: 20px;
             cursor: pointer;
             transition: all 0.3s;
-            text-align: left;
+            text-align: center;
+            font-size: 1.1em;
         }
 
         .game-option:hover {
             border-color: #667eea;
             background: #f0f4ff;
+            transform: translateX(5px);
         }
 
         .game-option.correct {
@@ -445,18 +436,31 @@
             background: #f8d7da;
         }
 
-        .game-timer {
-            font-size: 2em;
-            color: #667eea;
-            text-align: center;
+        .game-option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .language-card {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            padding: 30px;
             margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .language-word {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 15px;
             font-weight: bold;
         }
 
-        .game-score {
-            text-align: center;
-            font-size: 1.5em;
-            color: #667eea;
+        .language-pronunciation {
+            font-size: 1.2em;
+            color: #666;
+            font-style: italic;
             margin-bottom: 20px;
         }
 
@@ -472,32 +476,6 @@
         .game-result h2 {
             font-size: 2.5em;
             margin-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
         }
 
         .score-circle {
@@ -617,7 +595,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .team-grid, .game-grid {
+            .team-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -725,9 +703,6 @@
 
                 <h2 class="section-title">Upcoming Meetings</h2>
                 <div class="meeting-list" id="upcomingMeetings"></div>
-
-                <button class="btn" onclick="showPrepFlow()" style="margin-right: 10px;">+ Prepare for Meeting</button>
-                <button class="btn" onclick="showMiniGames()">🎮 Play Mini-Games</button>
             </div>
         </div>
 
@@ -855,160 +830,67 @@
             </div>
         </div>
 
-        <!-- MINI-GAMES MENU -->
-        <div id="miniGamesPage" class="page">
-            <div class="card">
-                <div class="header">
-                    <h2>🎮 Mini-Games</h2>
-                    <button class="back-btn" onclick="backToDashboard()">← Back to Dashboard</button>
-                </div>
-
-                <p style="text-align: center; color: #666; margin-bottom: 30px;">
-                    Boost your cultural knowledge and earn points!
-                </p>
-
-                <div class="game-grid">
-                    <div class="game-card" onclick="startGame('match')">
-                        <div class="game-icon">🎯</div>
-                        <div class="game-title">Cultural Quick Match</div>
-                        <div class="game-desc">Match countries to customs (60 sec)</div>
-                    </div>
-
-                    <div class="game-card" onclick="startGame('scenario')">
-                        <div class="game-icon">💼</div>
-                        <div class="game-title">Meeting Scenarios</div>
-                        <div class="game-desc">Choose the right response</div>
-                    </div>
-
-                    <div class="game-card" onclick="startGame('card')">
-                        <div class="game-icon">🎴</div>
-                        <div class="game-title">Business Card Exchange</div>
-                        <div class="game-desc">Learn proper etiquette</div>
-                    </div>
-
-                    <div class="game-card" onclick="startGame('opener')">
-                        <div class="game-icon">💬</div>
-                        <div class="game-title">Conversation Openers</div>
-                        <div class="game-desc">Pick the best opening line</div>
-                    </div>
-
-                    <div class="game-card" onclick="startGame('trivia')">
-                        <div class="game-icon">⚡</div>
-                        <div class="game-title">Culture Trivia Sprint</div>
-                        <div class="game-desc">Fast true/false questions</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- GAME PLAY AREA -->
+        <!-- GAME PAGE -->
         <div id="gamePage" class="page">
-            <div class="game-play-area">
-                <div class="header">
-                    <h2 id="gameTitle">Game</h2>
-                    <button class="back-btn" onclick="backToGamesMenu()">← Back</button>
+            <div class="game-container">
+                <div class="game-header">
+                    <div class="game-country" id="gameCountryFlag"></div>
+                    <div class="game-title" id="gameTitle"></div>
+                    <div class="game-subtitle" id="gameSubtitle"></div>
                 </div>
 
                 <div id="gameContent"></div>
             </div>
         </div>
 
-        <!-- PREP FLOW -->
-        <div id="prepPage" class="page">
+        <!-- PREP RESULTS PAGE -->
+        <div id="prepResultsPage" class="page">
             <div class="card">
                 <div class="header">
-                    <h2>Prepare for Meeting</h2>
-                    <button class="back-btn" onclick="backToDashboard()">← Back</button>
-                </div>
-                
-                <div id="meetingSelection">
-                    <h3 style="margin-bottom: 15px;">Select a Meeting</h3>
-                    <div id="prepMeetingList"></div>
-                    
-                    <p style="text-align: center; margin: 20px 0; color: #666;">or</p>
-                    
-                    <button class="btn btn-secondary" onclick="showManualEntry()">Enter New Meeting</button>
+                    <h2>Meeting Preparation Complete</h2>
+                    <button class="back-btn" onclick="backToDashboard()">← Back to Dashboard</button>
                 </div>
 
-                <div id="manualEntry" style="display: none;">
-                    <form id="prepForm">
-                        <div class="form-group">
-                            <label for="prepCountry">Client's Country</label>
-                            <select id="prepCountry" required>
-                                <option value="">Select a country...</option>
-                                <option value="japan">🇯🇵 Japan</option>
-                                <option value="germany">🇩🇪 Germany</option>
-                                <option value="brazil">🇧🇷 Brazil</option>
-                                <option value="usa">🇺🇸 United States</option>
-                                <option value="china">🇨🇳 China</option>
-                                <option value="india">🇮🇳 India</option>
-                                <option value="france">🇫🇷 France</option>
-                                <option value="uk">🇬🇧 United Kingdom</option>
-                                <option value="mexico">🇲🇽 Mexico</option>
-                                <option value="southkorea">🇰🇷 South Korea</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prepType">Meeting Type</label>
-                            <select id="prepType" required>
-                                <option value="">Select type...</option>
-                                <option value="first">First Meeting / Introduction</option>
-                                <option value="pitch">Sales Pitch</option>
-                                <option value="negotiation">Negotiation</option>
-                                <option value="followup">Follow-up Meeting</option>
-                                <option value="closing">Closing Deal</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn">Generate Prep 🚀</button>
-                        <button type="button" class="btn btn-secondary" onclick="backToMeetingSelect()">Back</button>
-                    </form>
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <span class="meeting-flag" id="prepFlag"></span>
+                    <div>
+                        <h2 id="prepTitle"></h2>
+                        <p id="prepSubtitle" style="color: #666;"></p>
+                    </div>
                 </div>
 
-                <div id="prepResults" style="display: none;">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <span class="meeting-flag" id="prepFlag"></span>
-                        <div>
-                            <h2 id="prepTitle"></h2>
-                            <p id="prepSubtitle" style="color: #666;"></p>
-                        </div>
-                    </div>
-
-                    <div class="score-circle">
-                        <span class="score-text" id="prepScore">85</span>
-                    </div>
-                    <p class="score-label">Meeting Readiness Score</p>
-
-                    <div class="insight-section">
-                        <h3>Cultural Insights</h3>
-                        <ul class="insight-list" id="prepInsights"></ul>
-                    </div>
-
-                    <div class="insight-section">
-                        <h3>Recommended Opening</h3>
-                        <div class="opener-box" id="prepOpener"></div>
-                    </div>
-
-                    <div class="dos-donts">
-                        <div class="do-box">
-                            <h4>✓ Do</h4>
-                            <ul id="prepDos" style="list-style: none; padding: 0;"></ul>
-                        </div>
-                        <div class="dont-box">
-                            <h4>✗ Don't</h4>
-                            <ul id="prepDonts" style="list-style: none; padding: 0;"></ul>
-                        </div>
-                    </div>
-
-                    <button class="btn" onclick="completePrepAndReturn()">Complete Prep ✓</button>
+                <div class="score-circle">
+                    <span class="score-text" id="prepScore">85</span>
                 </div>
+                <p class="score-label">Meeting Readiness Score</p>
+
+                <div class="insight-section">
+                    <h3>Cultural Insights</h3>
+                    <ul class="insight-list" id="prepInsights"></ul>
+                </div>
+
+                <div class="insight-section">
+                    <h3>Recommended Opening</h3>
+                    <div class="opener-box" id="prepOpener"></div>
+                </div>
+
+                <div class="dos-donts">
+                    <div class="do-box">
+                        <h4>✓ Do</h4>
+                        <ul id="prepDos" style="list-style: none; padding: 0;"></ul>
+                    </div>
+                    <div class="dont-box">
+                        <h4>✗ Don't</h4>
+                        <ul id="prepDonts" style="list-style: none; padding: 0;"></ul>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="completePrepAndReturn()">Complete Prep ✓</button>
             </div>
         </div>
     </div>
 
     <script>
-        // User data
         const users = {
             tomer: {
                 name: "Tomer",
@@ -1058,81 +940,207 @@
                 insights: ["Business cards (meishi) are exchanged with both hands", "Indirect communication is preferred", "Decision-making is consensus-based", "Punctuality is extremely important"],
                 dos: ["Bow slightly when greeting", "Use formal titles", "Be patient with silence"],
                 donts: ["Don't rush to close", "Avoid hand gestures", "Don't pocket cards immediately"],
-                opener: "Thank you very much for taking the time to meet. I'm honored to have this opportunity."
+                opener: "Thank you very much for taking the time to meet. I'm honored to have this opportunity.",
+                language: [
+                    { word: "Hello", translation: "Konnichiwa", pronunciation: "kohn-nee-chee-wah" },
+                    { word: "Thank you", translation: "Arigatou gozaimasu", pronunciation: "ah-ree-gah-toh goh-zai-mahs" },
+                    { word: "Good morning", translation: "Ohayou gozaimasu", pronunciation: "oh-hah-yoh goh-zai-mahs" },
+                    { word: "Nice to meet you", translation: "Hajimemashite", pronunciation: "hah-jee-meh-mah-shee-teh" },
+                    { word: "Excuse me", translation: "Sumimasen", pronunciation: "soo-mee-mah-sen" }
+                ],
+                trivia: [
+                    { question: "In Japan, business cards should be received with both hands.", answer: true },
+                    { question: "It's acceptable to write notes on someone's business card in front of them.", answer: false },
+                    { question: "Bowing is a common form of greeting in Japan.", answer: true },
+                    { question: "Direct eye contact is expected and shows confidence.", answer: false },
+                    { question: "Silence during meetings is uncomfortable and should be avoided.", answer: false }
+                ],
+                quiz: [
+                    {
+                        question: "When should you exchange business cards in Japan?",
+                        options: ["At the end of the meeting", "At the beginning, after introductions", "Only if asked", "During the handshake"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does indirect communication in Japan mean?",
+                        options: ["Speaking quietly", "Avoiding confrontation and being subtle", "Using email instead of phone", "Not making eye contact"],
+                        correct: 1
+                    },
+                    {
+                        question: "How should you address a Japanese business partner?",
+                        options: ["First name only", "Last name + san", "Nickname", "Just 'you'"],
+                        correct: 1
+                    }
+                ]
             },
             germany: {
                 flag: "🇩🇪", name: "Germany",
                 insights: ["Germans value precision and punctuality", "Direct communication is appreciated", "Meetings are formal and structured", "Facts trump emotions"],
                 dos: ["Be on time", "Prepare technical details", "Use formal titles"],
                 donts: ["Don't use humor", "Avoid small talk", "Don't make empty promises"],
-                opener: "Thank you for meeting. I'd like to present how our solution addresses your requirements."
+                opener: "Thank you for meeting. I'd like to present how our solution addresses your requirements.",
+                language: [
+                    { word: "Hello", translation: "Guten Tag", pronunciation: "goo-ten tahg" },
+                    { word: "Thank you", translation: "Danke schön", pronunciation: "dahn-kuh shurn" },
+                    { word: "Good morning", translation: "Guten Morgen", pronunciation: "goo-ten mor-gen" },
+                    { word: "Goodbye", translation: "Auf Wiedersehen", pronunciation: "owf vee-der-zey-en" },
+                    { word: "Please", translation: "Bitte", pronunciation: "bit-tuh" }
+                ],
+                trivia: [
+                    { question: "Germans highly value punctuality in business.", answer: true },
+                    { question: "Small talk is an important part of German business meetings.", answer: false },
+                    { question: "Direct communication is preferred over indirect hints.", answer: true },
+                    { question: "Humor is commonly used to build rapport in business settings.", answer: false },
+                    { question: "Germans prefer detailed, fact-based presentations.", answer: true }
+                ],
+                quiz: [
+                    {
+                        question: "How should you address a German colleague initially?",
+                        options: ["First name immediately", "Herr/Frau + Last name", "Hey buddy", "Just their title"],
+                        correct: 1
+                    },
+                    {
+                        question: "What's most valued in German business culture?",
+                        options: ["Emotional appeals", "Precision and data", "Relationship-building", "Flexibility"],
+                        correct: 1
+                    },
+                    {
+                        question: "If you're going to be 5 minutes late to a German meeting, you should:",
+                        options: ["It's fine, no need to mention it", "Call ahead to inform them", "Just apologize when you arrive", "Reschedule"],
+                        correct: 1
+                    }
+                ]
             },
             brazil: {
                 flag: "🇧🇷", name: "Brazil",
                 insights: ["Relationship-building is crucial", "Warmth and enthusiasm matter", "Extended small talk is normal", "Face-to-face is valued"],
                 dos: ["Greet warmly", "Show cultural interest", "Be flexible"],
                 donts: ["Don't rush to business", "Avoid being rigid", "Don't criticize Brazil"],
-                opener: "It's such a pleasure to meet you! I've been looking forward to this conversation."
+                opener: "It's such a pleasure to meet you! I've been looking forward to this conversation.",
+                language: [
+                    { word: "Hello", translation: "Olá", pronunciation: "oh-lah" },
+                    { word: "Thank you", translation: "Obrigado/Obrigada", pronunciation: "oh-bree-gah-doh/dah" },
+                    { word: "Good morning", translation: "Bom dia", pronunciation: "bohm jee-ah" },
+                    { word: "Please", translation: "Por favor", pronunciation: "por fah-vor" },
+                    { word: "Nice to meet you", translation: "Prazer em conhecê-lo", pronunciation: "prah-zehr em ko-nyeh-seh-loh" }
+                ],
+                trivia: [
+                    { question: "Brazilians prefer to build personal relationships before discussing business.", answer: true },
+                    { question: "Meetings in Brazil always start exactly on time.", answer: false },
+                    { question: "Warmth and enthusiasm are valued in Brazilian business culture.", answer: true },
+                    { question: "It's best to get straight to business without small talk.", answer: false },
+                    { question: "Physical contact like handshakes and pats on the back are common.", answer: true }
+                ],
+                quiz: [
+                    {
+                        question: "What should you do at the start of a meeting in Brazil?",
+                        options: ["Start your pitch immediately", "Engage in warm small talk first", "Review the contract", "Check emails"],
+                        correct: 1
+                    },
+                    {
+                        question: "How do Brazilians typically view time in business?",
+                        options: ["Extremely rigid schedules", "More flexible than in Germany or USA", "Time doesn't matter", "Always early"],
+                        correct: 1
+                    },
+                    {
+                        question: "What's important when greeting a Brazilian business partner?",
+                        options: ["Formal bow", "Firm handshake with warm smile", "Just a nod", "Written greeting"],
+                        correct: 1
+                    }
+                ]
             },
             usa: {
                 flag: "🇺🇸", name: "United States",
                 insights: ["Americans value efficiency", "Direct communication expected", "Time is money", "Informal friendliness works"],
                 dos: ["Use first names", "Highlight ROI", "Be confident"],
                 donts: ["Don't be overly formal", "Avoid long explanations", "Don't undersell"],
-                opener: "Thanks for making time! I'm excited to show you how we can drive real results."
+                opener: "Thanks for making time! I'm excited to show you how we can drive real results.",
+                language: [
+                    { word: "Hello", translation: "Hello / Hi", pronunciation: "hel-oh / hai" },
+                    { word: "Thank you", translation: "Thank you / Thanks", pronunciation: "thank yoo / thanks" },
+                    { word: "Good morning", translation: "Good morning", pronunciation: "good mor-ning" },
+                    { word: "Nice to meet you", translation: "Nice to meet you", pronunciation: "nais too meet yoo" },
+                    { word: "Let's get started", translation: "Let's get started", pronunciation: "lets get star-ted" }
+                ],
+                trivia: [
+                    { question: "Americans typically value efficiency and getting to the point quickly.", answer: true },
+                    { question: "It's important to address people by their formal titles in the USA.", answer: false },
+                    { question: "Direct communication is expected in American business culture.", answer: true },
+                    { question: "Americans prefer long relationship-building before discussing business.", answer: false },
+                    { question: "Confidence and enthusiasm are valued in presentations.", answer: true }
+                ],
+                quiz: [
+                    {
+                        question: "How quickly should you use first names in the USA?",
+                        options: ["After several meetings", "Almost immediately", "Never", "Only if they're junior"],
+                        correct: 1
+                    },
+                    {
+                        question: "What matters most in US business presentations?",
+                        options: ["Detailed technical specs", "ROI and measurable results", "Company history", "Personal connections"],
+                        correct: 1
+                    },
+                    {
+                        question: "Americans view time in business as:",
+                        options: ["Flexible and relaxed", "Valuable - don't waste it", "Unimportant", "Only for scheduling"],
+                        correct: 1
+                    }
+                ]
             },
             china: {
                 flag: "🇨🇳", name: "China",
                 insights: ["Guanxi (relationships) are essential", "Respect hierarchy", "Indirect communication matters", "Patience is required"],
                 dos: ["Use both hands for cards", "Address seniors first", "Respect company history"],
                 donts: ["Don't publicly disagree", "Avoid rushing decisions", "Don't separate business from relationships"],
-                opener: "It is a great honor to meet with you. I hope to build a long-term partnership."
-            },
-            india: {
-                flag: "🇮🇳", name: "India",
-                insights: ["Personal relationships matter", "Hierarchy is respected", "'Yes' may mean maybe", "Flexibility is valued"],
-                dos: ["Greet with Namaste", "Show patience", "Ask clarifying questions"],
-                donts: ["Don't rush", "Avoid aggressive tactics", "Don't assume yes = yes"],
-                opener: "Thank you for welcoming me. I'm delighted to explore how we might work together."
-            },
-            france: {
-                flag: "🇫🇷", name: "France",
-                insights: ["Logic and intellect valued", "Debate is normal", "Formal etiquette matters", "Quality over quick wins"],
-                dos: ["Use formal titles", "Prepare for questions", "Demonstrate expertise"],
-                donts: ["Don't be casual", "Avoid hard-sell", "Don't take debate personally"],
-                opener: "Bonjour. I look forward to discussing how our solution aligns with your objectives."
-            },
-            uk: {
-                flag: "🇬🇧", name: "United Kingdom",
-                insights: ["Politeness and understatement", "Humor is common", "Structured agendas", "Trust through reliability"],
-                dos: ["Be punctual", "Use diplomatic language", "Respect turn-taking"],
-                donts: ["Don't be pushy", "Avoid exaggeration", "Don't interrupt"],
-                opener: "Thank you for your time. I'm keen to understand your requirements."
-            },
-            mexico: {
-                flag: "🇲🇽", name: "Mexico",
-                insights: ["Relationships are foundational", "Warmth is appreciated", "Hierarchy respected", "Flexibility is normal"],
-                dos: ["Greet warmly", "Build relationships", "Respect family"],
-                donts: ["Don't be blunt", "Avoid rigid schedules", "Don't neglect personal connection"],
-                opener: "It's wonderful to meet you! I'm looking forward to getting to know you and your business."
-            },
-            southkorea: {
-                flag: "🇰🇷", name: "South Korea",
-                insights: ["Hierarchy is very important", "Social activities build bonds", "Indirect communication", "Formal card exchange"],
-                dos: ["Use both hands", "Use titles", "Show patience"],
-                donts: ["Don't be casual with seniors", "Avoid direct refusals", "Don't rush relationships"],
-                opener: "Thank you for meeting. I am honored to introduce our company."
+                opener: "It is a great honor to meet with you. I hope to build a long-term partnership.",
+                language: [
+                    { word: "Hello", translation: "Nǐ hǎo", pronunciation: "nee how" },
+                    { word: "Thank you", translation: "Xièxiè", pronunciation: "shyeh-shyeh" },
+                    { word: "Good morning", translation: "Zǎo ān", pronunciation: "dzao ahn" },
+                    { word: "Please", translation: "Qǐng", pronunciation: "ching" },
+                    { word: "Nice to meet you", translation: "Hěn gāoxìng jiàn dào nǐ", pronunciation: "hun gow-shing jyen dao nee" }
+                ],
+                trivia: [
+                    { question: "Building guanxi (relationships) is crucial in Chinese business.", answer: true },
+                    { question: "Hierarchy and respect for seniority are very important.", answer: true },
+                    { question: "It's acceptable to publicly disagree with a senior colleague.", answer: false },
+                    { question: "Direct 'no' is commonly used in Chinese business culture.", answer: false },
+                    { question: "Patience is important as decisions involve many stakeholders.", answer: true }
+                ],
+                quiz: [
+                    {
+                        question: "How should you exchange business cards in China?",
+                        options: ["One hand is fine", "With both hands", "Toss it on the table", "Email it instead"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does 'saving face' mean in Chinese culture?",
+                        options: ["Plastic surgery", "Avoiding public embarrassment or shame", "Taking photos", "Being on time"],
+                        correct: 1
+                    },
+                    {
+                        question: "In a Chinese meeting, you should address:",
+                        options: ["Everyone equally", "The most senior person first", "The youngest first", "Just your contact"],
+                        correct: 1
+                    }
+                ]
             }
         };
 
         let currentUser = null;
         let currentMeetingIndex = null;
+        let currentCountry = null;
+        let currentClient = null;
+        let currentType = null;
+        let gameType = null;
+        let gameScore = 0;
+        let questionIndex = 0;
 
         function login(username) {
             currentUser = username;
             const user = users[username];
             
-            document.getElementById('loginPage').classList.remove('active');
+            hideAllPages();
             
             if (user.isAdmin) {
                 document.getElementById('adminPage').classList.add('active');
@@ -1179,7 +1187,7 @@
                     <div>
                         ${meeting.prepared ? 
                             '<span class="meeting-status status-prepared">Prepared ✓</span>' : 
-                            `<button class="btn" onclick="prepareFromDashboard(${index})">Prepare Now</button>`
+                            `<button class="btn" onclick="startPrep(${index})">Prepare Now</button>`
                         }
                     </div>
                 `;
@@ -1187,86 +1195,207 @@
             });
         }
 
-        function prepareFromDashboard(index) {
+        function startPrep(index) {
             currentMeetingIndex = index;
             const user = users[currentUser];
             const meeting = user.meetings[index];
             
+            currentCountry = meeting.country;
+            currentClient = meeting.client;
+            currentType = meeting.type;
+            
+            // Pick random game (0=trivia, 1=quiz, 2=language)
+            const games = ['trivia', 'quiz', 'language'];
+            gameType = games[Math.floor(Math.random() * games.length)];
+            gameScore = 0;
+            questionIndex = 0;
+            
             hideAllPages();
-            document.getElementById('prepPage').classList.add('active');
+            document.getElementById('gamePage').classList.add('active');
             
-            // Auto-generate prep for this meeting
-            generatePrepResults(meeting.country, meeting.type, meeting.client);
-        }
-
-        function showPrepFlow() {
-            hideAllPages();
-            document.getElementById('prepPage').classList.add('active');
+            const data = culturalData[currentCountry];
+            document.getElementById('gameCountryFlag').textContent = data.flag;
             
-            const user = users[currentUser];
-            const meetingList = document.getElementById('prepMeetingList');
-            meetingList.innerHTML = '';
-            
-            const unprepared = user.meetings.filter(m => !m.prepared);
-            
-            if (unprepared.length === 0) {
-                meetingList.innerHTML = '<p style="text-align: center; color: #666;">All meetings prepared! ✓</p>';
+            if (gameType === 'trivia') {
+                document.getElementById('gameTitle').textContent = '⚡ Culture Trivia';
+                document.getElementById('gameSubtitle').textContent = 'True or False?';
+                showTriviaQuestion();
+            } else if (gameType === 'quiz') {
+                document.getElementById('gameTitle').textContent = '💼 Cultural Quiz';
+                document.getElementById('gameSubtitle').textContent = 'Choose the best answer';
+                showQuizQuestion();
             } else {
-                unprepared.forEach((meeting, originalIndex) => {
-                    const index = user.meetings.indexOf(meeting);
-                    const item = document.createElement('div');
-                    item.className = 'meeting-item';
-                    item.style.cursor = 'pointer';
-                    item.onclick = () => prepareSpecificMeeting(index);
-                    item.innerHTML = `
-                        <div class="meeting-info">
-                            <div class="meeting-title">
-                                <span class="meeting-flag">${meeting.flag}</span>
-                                ${meeting.client}
-                            </div>
-                            <div class="meeting-details">${meeting.time} • ${meeting.type}</div>
-                        </div>
-                        <span style="color: #667eea; font-weight: 600;">Select →</span>
-                    `;
-                    meetingList.appendChild(item);
-                });
+                document.getElementById('gameTitle').textContent = '🗣️ Language Refresher';
+                document.getElementById('gameSubtitle').textContent = 'Learn key phrases';
+                showLanguageCard();
             }
         }
 
-        function prepareSpecificMeeting(index) {
-            currentMeetingIndex = index;
-            const user = users[currentUser];
-            const meeting = user.meetings[index];
+        function showTriviaQuestion() {
+            const data = culturalData[currentCountry];
+            const questions = data.trivia;
             
-            generatePrepResults(meeting.country, meeting.type, meeting.client);
+            if (questionIndex >= questions.length) {
+                finishGame();
+                return;
+            }
+            
+            const q = questions[questionIndex];
+            const content = document.getElementById('gameContent');
+            
+            content.innerHTML = `
+                <div class="game-score">Question ${questionIndex + 1}/${questions.length} | Score: ${gameScore}</div>
+                <div class="game-question">${q.question}</div>
+                <div class="game-options">
+                    <div class="game-option" onclick="checkTrivia(true)">
+                        ✓ TRUE
+                    </div>
+                    <div class="game-option" onclick="checkTrivia(false)">
+                        ✗ FALSE
+                    </div>
+                </div>
+            `;
         }
 
-        function showManualEntry() {
-            document.getElementById('meetingSelection').style.display = 'none';
-            document.getElementById('manualEntry').style.display = 'block';
+        function checkTrivia(answer) {
+            const data = culturalData[currentCountry];
+            const q = data.trivia[questionIndex];
+            const options = document.querySelectorAll('.game-option');
+            
+            options.forEach(opt => opt.classList.add('disabled'));
+            
+            const selectedIndex = answer ? 0 : 1;
+            const correctIndex = q.answer ? 0 : 1;
+            
+            if (answer === q.answer) {
+                options[selectedIndex].classList.add('correct');
+                gameScore += 10;
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[correctIndex].classList.add('correct');
+            }
+            
+            setTimeout(() => {
+                questionIndex++;
+                showTriviaQuestion();
+            }, 1500);
         }
 
-        function backToMeetingSelect() {
-            document.getElementById('meetingSelection').style.display = 'block';
-            document.getElementById('manualEntry').style.display = 'none';
+        function showQuizQuestion() {
+            const data = culturalData[currentCountry];
+            const questions = data.quiz;
+            
+            if (questionIndex >= questions.length) {
+                finishGame();
+                return;
+            }
+            
+            const q = questions[questionIndex];
+            const content = document.getElementById('gameContent');
+            
+            const optionsHTML = q.options.map((opt, i) => 
+                `<div class="game-option" onclick="checkQuiz(${i})">${opt}</div>`
+            ).join('');
+            
+            content.innerHTML = `
+                <div class="game-score">Question ${questionIndex + 1}/${questions.length} | Score: ${gameScore}</div>
+                <div class="game-question">${q.question}</div>
+                <div class="game-options">${optionsHTML}</div>
+            `;
         }
 
-        document.getElementById('prepForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const country = document.getElementById('prepCountry').value;
-            const type = document.getElementById('prepType').value;
-            currentMeetingIndex = null;
-            generatePrepResults(country, type, 'New Client');
-        });
+        function checkQuiz(answer) {
+            const data = culturalData[currentCountry];
+            const q = data.quiz[questionIndex];
+            const options = document.querySelectorAll('.game-option');
+            
+            options.forEach(opt => opt.classList.add('disabled'));
+            
+            if (answer === q.correct) {
+                options[answer].classList.add('correct');
+                gameScore += 10;
+            } else {
+                options[answer].classList.add('incorrect');
+                options[q.correct].classList.add('correct');
+            }
+            
+            setTimeout(() => {
+                questionIndex++;
+                showQuizQuestion();
+            }, 1500);
+        }
 
-        function generatePrepResults(country, type, clientName) {
-            const data = culturalData[country];
-            const score = 85 + Math.floor(Math.random() * 10);
+        function showLanguageCard() {
+            const data = culturalData[currentCountry];
+            const phrases = data.language;
+            
+            if (questionIndex >= phrases.length) {
+                finishGame();
+                return;
+            }
+            
+            const phrase = phrases[questionIndex];
+            const content = document.getElementById('gameContent');
+            
+            content.innerHTML = `
+                <div class="game-score">Phrase ${questionIndex + 1}/${phrases.length}</div>
+                <div class="language-card">
+                    <div style="color: #666; margin-bottom: 10px;">English:</div>
+                    <div class="language-word">${phrase.word}</div>
+                    <div style="color: #666; margin-bottom: 10px;">${data.name}:</div>
+                    <div class="language-word" style="color: #667eea;">${phrase.translation}</div>
+                    <div class="language-pronunciation">(${phrase.pronunciation})</div>
+                </div>
+                <button class="btn" onclick="nextLanguageCard()">Next Phrase →</button>
+            `;
+            
+            gameScore += 10; // Auto-award points for language learning
+        }
+
+        function nextLanguageCard() {
+            questionIndex++;
+            showLanguageCard();
+        }
+
+        function finishGame() {
+            const data = culturalData[currentCountry];
+            let maxScore = 0;
+            
+            if (gameType === 'trivia') maxScore = data.trivia.length * 10;
+            else if (gameType === 'quiz') maxScore = data.quiz.length * 10;
+            else maxScore = data.language.length * 10;
+            
+            const percentage = Math.round((gameScore / maxScore) * 100);
+            let message = '';
+            if (percentage >= 80) message = '🎉 Excellent!';
+            else if (percentage >= 60) message = '👍 Great Job!';
+            else message = '📚 Good Try!';
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="game-result">
+                    <h2>${message}</h2>
+                    <div class="score-circle">
+                        <span class="score-text">${gameScore}</span>
+                    </div>
+                    <p style="font-size: 1.2em; margin-top: 20px;">
+                        ${gameScore} / ${maxScore} points
+                    </p>
+                </div>
+                <button class="btn" onclick="showPrepResults()" style="margin-top: 20px;">Continue to Prep Notes →</button>
+            `;
+        }
+
+        function showPrepResults() {
+            const data = culturalData[currentCountry];
+            const baseScore = 85;
+            const bonusScore = Math.min(10, Math.floor(gameScore / 5));
+            const finalScore = baseScore + bonusScore;
             
             document.getElementById('prepFlag').textContent = data.flag;
-            document.getElementById('prepTitle').textContent = `Meeting with ${clientName}`;
-            document.getElementById('prepSubtitle').textContent = `${data.name} • ${type}`;
-            document.getElementById('prepScore').textContent = score;
+            document.getElementById('prepTitle').textContent = `Meeting with ${currentClient}`;
+            document.getElementById('prepSubtitle').textContent = `${data.name} • ${currentType}`;
+            document.getElementById('prepScore').textContent = finalScore;
             
             const insightsList = document.getElementById('prepInsights');
             insightsList.innerHTML = '';
@@ -1296,9 +1425,8 @@
                 dontsList.appendChild(li);
             });
             
-            document.getElementById('meetingSelection').style.display = 'none';
-            document.getElementById('manualEntry').style.display = 'none';
-            document.getElementById('prepResults').style.display = 'block';
+            hideAllPages();
+            document.getElementById('prepResultsPage').classList.add('active');
         }
 
         function completePrepAndReturn() {
@@ -1317,377 +1445,6 @@
                 loadDashboard(users[currentUser]);
                 document.getElementById('dashboardPage').classList.add('active');
             }
-            
-            // Reset prep page
-            document.getElementById('meetingSelection').style.display = 'block';
-            document.getElementById('manualEntry').style.display = 'none';
-            document.getElementById('prepResults').style.display = 'none';
-            document.getElementById('prepForm').reset();
-            currentMeetingIndex = null;
-        }
-
-        // MINI-GAMES
-
-        function showMiniGames() {
-            hideAllPages();
-            document.getElementById('miniGamesPage').classList.add('active');
-        }
-
-        function backToGamesMenu() {
-            hideAllPages();
-            document.getElementById('miniGamesPage').classList.add('active');
-        }
-
-        let currentGame = null;
-        let gameScore = 0;
-        let gameQuestionIndex = 0;
-
-        const games = {
-            match: {
-                title: "🎯 Cultural Quick Match",
-                questions: [
-                    {
-                        question: "Which country values business cards exchanged with both hands?",
-                        options: ["USA", "Japan", "Germany", "Brazil"],
-                        correct: 1
-                    },
-                    {
-                        question: "Where is direct, frank communication most appreciated?",
-                        options: ["China", "Japan", "Germany", "Mexico"],
-                        correct: 2
-                    },
-                    {
-                        question: "In which culture is relationship-building through dining common?",
-                        options: ["Germany", "UK", "South Korea", "USA"],
-                        correct: 2
-                    },
-                    {
-                        question: "Which country values efficiency and results-oriented meetings?",
-                        options: ["Brazil", "USA", "France", "India"],
-                        correct: 1
-                    },
-                    {
-                        question: "Where is 'saving face' a crucial cultural value?",
-                        options: ["USA", "Germany", "China", "UK"],
-                        correct: 2
-                    }
-                ]
-            },
-            scenario: {
-                title: "💼 Meeting Scenarios",
-                questions: [
-                    {
-                        question: "Your Japanese client hands you their business card. You should:",
-                        options: [
-                            "Take it with one hand and put it in your pocket",
-                            "Receive it with both hands and examine it carefully",
-                            "Just place it on the table without looking",
-                            "Hand them yours first"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "In a German meeting, the client challenges your proposal. You should:",
-                        options: [
-                            "Take it personally and get defensive",
-                            "Change the subject quickly",
-                            "Respond with data and clear reasoning",
-                            "Make a joke to lighten the mood"
-                        ],
-                        correct: 2
-                    },
-                    {
-                        question: "A Brazilian client wants to talk about soccer before business. You should:",
-                        options: [
-                            "Redirect to business immediately",
-                            "Engage warmly in the conversation",
-                            "Check your watch impatiently",
-                            "Ignore and start your pitch"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "Your Chinese client says 'we'll think about it' after your pitch. This likely means:",
-                        options: [
-                            "Definite yes, deal is done",
-                            "They need time for consensus",
-                            "Immediate rejection",
-                            "They forgot what you said"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "In a UK meeting, someone makes a self-deprecating joke. You should:",
-                        options: [
-                            "Agree they're not very good",
-                            "Ignore it completely",
-                            "Respond with similar light humor",
-                            "Give them serious career advice"
-                        ],
-                        correct: 2
-                    }
-                ]
-            },
-            card: {
-                title: "🎴 Business Card Exchange",
-                questions: [
-                    {
-                        question: "In Japan, you should never:",
-                        options: [
-                            "Write on someone's business card",
-                            "Read the card carefully",
-                            "Place it on the table during the meeting",
-                            "Keep it visible"
-                        ],
-                        correct: 0
-                    },
-                    {
-                        question: "When receiving a card in South Korea, use:",
-                        options: [
-                            "Your left hand only",
-                            "Both hands",
-                            "Your right hand only",
-                            "It doesn't matter"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "After receiving a business card in China, you should:",
-                        options: [
-                            "Put it away immediately",
-                            "Study it briefly and compliment the person's title",
-                            "Hand it back",
-                            "Fold it to fit your wallet"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "In the USA, business cards are typically:",
-                        options: [
-                            "Exchanged with formal ceremony",
-                            "Handed over casually",
-                            "Never used anymore",
-                            "Only for executives"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "Running out of business cards in Japan is seen as:",
-                        options: [
-                            "Completely normal",
-                            "A sign of success",
-                            "Unprofessional",
-                            "Expected"
-                        ],
-                        correct: 2
-                    }
-                ]
-            },
-            opener: {
-                title: "💬 Conversation Openers",
-                questions: [
-                    {
-                        question: "Best opening for a first meeting in Japan:",
-                        options: [
-                            "Hey! Ready to talk business?",
-                            "Thank you very much for your time. I'm honored to meet you.",
-                            "Let's get straight to the point.",
-                            "How's your day going?"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "Best opening for a meeting in Brazil:",
-                        options: [
-                            "I have a 30-minute agenda prepared.",
-                            "Let's discuss ROI immediately.",
-                            "It's wonderful to meet you! How are you?",
-                            "Here are the contract terms."
-                        ],
-                        correct: 2
-                    },
-                    {
-                        question: "Best opening for a German business meeting:",
-                        options: [
-                            "How was your weekend?",
-                            "Thank you for meeting. Let's review the requirements.",
-                            "Did you see the game last night?",
-                            "Let me tell you a funny story first."
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "Best opening for a meeting in China:",
-                        options: [
-                            "I'm here to close this deal today.",
-                            "It's an honor to meet your esteemed company.",
-                            "Let's talk numbers right away.",
-                            "What's your budget?"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        question: "Best opening for a US sales meeting:",
-                        options: [
-                            "I must first understand your company's 100-year history.",
-                            "Thanks for your time! Let's see how we can help you win.",
-                            "We should spend an hour getting to know each other.",
-                            "Please tell me about your personal life first."
-                        ],
-                        correct: 1
-                    }
-                ]
-            },
-            trivia: {
-                title: "⚡ Culture Trivia Sprint",
-                questions: [
-                    {
-                        question: "In France, business meetings may involve debate and this is considered normal, not hostile.",
-                        truefalse: true,
-                        correct: true
-                    },
-                    {
-                        question: "In India, when someone says 'yes' it always means definite agreement.",
-                        truefalse: true,
-                        correct: false
-                    },
-                    {
-                        question: "Germans prefer emotional appeals over data and facts in business.",
-                        truefalse: true,
-                        correct: false
-                    },
-                    {
-                        question: "In Mexico, punctuality is as strict as in Germany.",
-                        truefalse: true,
-                        correct: false
-                    },
-                    {
-                        question: "Americans typically value efficiency and getting to the point quickly.",
-                        truefalse: true,
-                        correct: true
-                    },
-                    {
-                        question: "In Japan, silence during a meeting is uncomfortable and should be filled immediately.",
-                        truefalse: true,
-                        correct: false
-                    },
-                    {
-                        question: "UK business culture often uses humor even in professional settings.",
-                        truefalse: true,
-                        correct: true
-                    },
-                    {
-                        question: "In Brazil, jumping straight to business without personal connection is appreciated.",
-                        truefalse: true,
-                        correct: false
-                    }
-                ]
-            }
-        };
-
-        function startGame(gameType) {
-            currentGame = gameType;
-            gameScore = 0;
-            gameQuestionIndex = 0;
-            
-            hideAllPages();
-            document.getElementById('gamePage').classList.add('active');
-            document.getElementById('gameTitle').textContent = games[gameType].title;
-            
-            showGameQuestion();
-        }
-
-        function showGameQuestion() {
-            const game = games[currentGame];
-            const question = game.questions[gameQuestionIndex];
-            const content = document.getElementById('gameContent');
-            
-            if (!question) {
-                showGameResults();
-                return;
-            }
-            
-            const totalQuestions = game.questions.length;
-            
-            if (question.truefalse) {
-                // True/False format
-                content.innerHTML = `
-                    <div class="game-score">Question ${gameQuestionIndex + 1}/${totalQuestions} | Score: ${gameScore}</div>
-                    <div class="game-question">${question.question}</div>
-                    <div class="game-options">
-                        <div class="game-option" onclick="checkAnswer(true, ${question.correct})">
-                            <strong>TRUE</strong>
-                        </div>
-                        <div class="game-option" onclick="checkAnswer(false, ${question.correct})">
-                            <strong>FALSE</strong>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Multiple choice format
-                const optionsHTML = question.options.map((opt, i) => 
-                    `<div class="game-option" onclick="checkAnswer(${i}, ${question.correct})">${opt}</div>`
-                ).join('');
-                
-                content.innerHTML = `
-                    <div class="game-score">Question ${gameQuestionIndex + 1}/${totalQuestions} | Score: ${gameScore}</div>
-                    <div class="game-question">${question.question}</div>
-                    <div class="game-options">${optionsHTML}</div>
-                `;
-            }
-        }
-
-        function checkAnswer(selected, correct) {
-            const options = document.querySelectorAll('.game-option');
-            options.forEach(opt => opt.style.pointerEvents = 'none');
-            
-            if (selected === correct) {
-                options[selected].classList.add('correct');
-                gameScore += 10;
-            } else {
-                if (typeof selected === 'boolean') {
-                    options[selected ? 0 : 1].classList.add('incorrect');
-                    options[correct ? 0 : 1].classList.add('correct');
-                } else {
-                    options[selected].classList.add('incorrect');
-                    options[correct].classList.add('correct');
-                }
-            }
-            
-            setTimeout(() => {
-                gameQuestionIndex++;
-                showGameQuestion();
-            }, 1500);
-        }
-
-        function showGameResults() {
-            const game = games[currentGame];
-            const totalQuestions = game.questions.length;
-            const maxScore = totalQuestions * 10;
-            const percentage = Math.round((gameScore / maxScore) * 100);
-            
-            let message = '';
-            if (percentage >= 80) message = '🎉 Excellent! Cultural Expert!';
-            else if (percentage >= 60) message = '👍 Great Job! Keep Learning!';
-            else message = '📚 Good Try! Practice More!';
-            
-            const content = document.getElementById('gameContent');
-            content.innerHTML = `
-                <div class="game-result">
-                    <h2>${message}</h2>
-                    <div class="score-circle">
-                        <span class="score-text">${gameScore}</span>
-                    </div>
-                    <p style="font-size: 1.2em; margin-top: 20px;">
-                        ${gameScore} / ${maxScore} points (${percentage}%)
-                    </p>
-                </div>
-                <button class="btn" onclick="backToGamesMenu()" style="margin-top: 20px;">Play Another Game</button>
-                <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
-            `;
-            
-            // Update user stats
-            users[currentUser].stats.meetings += 1;
         }
     </script>
 </body>
